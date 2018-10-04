@@ -1,7 +1,6 @@
 package compression
 
 import (
-	"errors"
 	"fmt"
 )
 
@@ -23,43 +22,30 @@ type HuffmanTree struct {
 	Root *Node
 }
 
-func (h *HuffmanTree) getEncodedStringForCharacter(ch string, s *ItemStack, rootNode *Node) string {
+//Encode Encode
+func (h *HuffmanTree) Encode(ch string, s *ItemStack, rootNode *Node) (string, error) {
+
+	encoded := ""
 
 	if rootNode.LeftNode == nil && rootNode.RightNode == nil {
 		if rootNode.value == ch {
-			encoded := ""
 			for _, i := range s.items {
 				encoded += string(i)
 			}
-			fmt.Print(encoded)
-			return encoded
+			fmt.Println(encoded)
+			return fmt.Sprintf("%s", encoded), nil
 		}
-		return ""
+		return "", nil
 	}
 	s.Push("0")
-	h.getEncodedStringForCharacter(ch, s, rootNode.LeftNode)
+	h.Encode(ch, s, rootNode.LeftNode)
 	s.Pop()
 
 	s.Push("1")
-	h.getEncodedStringForCharacter(ch, s, rootNode.RightNode)
+	h.Encode(ch, s, rootNode.RightNode)
 	s.Pop()
 
-	return ""
-
-}
-
-//Encode Encode
-func (h *HuffmanTree) Encode() (string, error) {
-	if h.Root == nil {
-		return "", errors.New("Root Node is null")
-	}
-	var str string
-	for _, c := range h.Text {
-		stack := ItemStack{}
-		binary := h.getEncodedStringForCharacter(string(c), stack.New(), h.Root)
-		str += binary
-	}
-	return str, nil
+	return encoded, nil
 
 }
 
