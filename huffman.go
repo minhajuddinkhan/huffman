@@ -1,5 +1,7 @@
 package compression
 
+import "errors"
+
 var (
 	text = "abbccc"
 )
@@ -42,12 +44,16 @@ func (h *HuffmanTree) encodeCharacter(ch string, s *ItemStack, rootNode *Node, r
 }
 
 //Encode Encode
-func (h *HuffmanTree) Encode(result *string) {
+func (h *HuffmanTree) Encode(result *string) error {
 
+	if h.Root == nil {
+		return errors.New("root cannot be null")
+	}
 	for _, c := range h.Text {
 		stack := ItemStack{}
 		h.encodeCharacter(string(c), stack.New(), h.Root, result)
 	}
+	return nil
 
 }
 

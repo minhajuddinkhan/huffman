@@ -9,10 +9,11 @@ import (
 func main() {
 
 	tree := compression.NewHuffmanTree("abbccc")
-	//	stack := compression.ItemStack{}
 
 	var result string
-	tree.Encode(&result)
-
-	fmt.Println(result)
+	err := tree.Encode(&result)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(result) //000101111
 }
