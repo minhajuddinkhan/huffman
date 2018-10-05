@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/minhajuddinkhan/compression"
+	"github.com/minhajuddinkhan/huffman"
 )
 
 func main() {
 
-	tree := compression.NewHuffmanTree("abbccc")
+	tree := huffman.NewHuffmanTree("abbccc")
 
 	var result string
 	err := tree.Encode(&result)
