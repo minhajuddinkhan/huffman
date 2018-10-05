@@ -2,18 +2,19 @@ package huffman
 
 import (
 	"math"
-	"strings"
 )
 
+//HuffmanFrequenceTable HuffmanFrequenceTable
 type HuffmanFrequenceTable struct {
 	Table map[string]*Node
 }
 
+//NewHuffmanTable NewHuffmanTable
 func NewHuffmanTable(text string) *HuffmanFrequenceTable {
 
 	table := make(map[string]*Node)
 	for i := 0; i < len(text); i++ {
-		c := strings.ToLower(string(text[i]))
+		c := (string(text[i]))
 		if table[c] == nil {
 			table[c] = &Node{value: c, weight: 1}
 		} else {
@@ -24,6 +25,7 @@ func NewHuffmanTable(text string) *HuffmanFrequenceTable {
 
 }
 
+//GetSmallestNode GetSmallestNode
 func (hft *HuffmanFrequenceTable) GetSmallestNode() *Node {
 	smallest := &Node{weight: math.MaxInt32}
 	for _, v := range hft.Table {
@@ -34,6 +36,7 @@ func (hft *HuffmanFrequenceTable) GetSmallestNode() *Node {
 	return smallest
 }
 
+//JoinNodes JoinNodes
 func JoinNodes(firstNode, secondNode *Node) *Node {
 
 	return &Node{

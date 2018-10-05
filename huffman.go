@@ -2,10 +2,6 @@ package huffman
 
 import "errors"
 
-var (
-	text = "abbccc"
-)
-
 //Node Node
 type Node struct {
 	value     string
@@ -14,15 +10,15 @@ type Node struct {
 	RightNode *Node
 }
 
-//HuffmanTree HuffmanTree
-type HuffmanTree struct {
+//Tree Huffman Tree Structure
+type Tree struct {
 	Text string
 	Root *Node
 }
 
-func (h *HuffmanTree) encodeCharacter(ch string, s *ItemStack, rootNode *Node, result *string) {
-	encoded := ""
+func (t *Tree) encodeCharacter(ch string, s *ItemStack, rootNode *Node, result *string) {
 
+	encoded := ""
 	if rootNode.LeftNode == nil && rootNode.RightNode == nil {
 		if rootNode.value == ch {
 			for _, i := range s.items {
@@ -35,35 +31,57 @@ func (h *HuffmanTree) encodeCharacter(ch string, s *ItemStack, rootNode *Node, r
 		return
 	}
 	s.Push("0")
-	h.encodeCharacter(ch, s, rootNode.LeftNode, result)
+	t.encodeCharacter(ch, s, rootNode.LeftNode, result)
 	s.Pop()
 
 	s.Push("1")
-	h.encodeCharacter(ch, s, rootNode.RightNode, result)
+	t.encodeCharacter(ch, s, rootNode.RightNode, result)
 	s.Pop()
 }
 
 //Encode Encode
-func (h *HuffmanTree) Encode(result *string) error {
+func (t *Tree) Encode(result *string) error {
 
-	if h.Root == nil {
+	if t.Root == nil {
 		return errors.New("root cannot be null")
 	}
-	for _, c := range h.Text {
+	for _, c := range t.Text {
 		stack := ItemStack{}
-		h.encodeCharacter(string(c), stack.New(), h.Root, result)
+		t.encodeCharacter(string(c), stack.New(), t.Root, result)
 	}
 	return nil
 
 }
 
 //Decode Decode
-func (h *HuffmanTree) Decode() {
+func (t *Tree) Decode(encoded string) (string, error) {
+	if t.Root == nil {
+		return "", errors.New("root cannot be null")
+	}
+
+	n := t.Root
+	decoded := ""
+	for i := 0; i < len(encoded); i++ {
+		ch := string(encoded[i])
+		if ch == "0" {
+			n = n.LeftNode
+		}
+		if ch == "1" {
+			n = n.RightNode
+		}
+		if n.LeftNode == nil && n.RightNode == nil {
+			decoded += n.value
+			n = t.Root
+
+		}
+	}
+
+	return decoded, nil
 
 }
 
 //NewHuffmanTree NewHuffmanTree
-func NewHuffmanTree(text string) *HuffmanTree {
+func NewHuffmanTree(text string) *Tree {
 
 	huffmanTable := NewHuffmanTable(text)
 	var j *Node
@@ -78,5 +96,5 @@ func NewHuffmanTree(text string) *HuffmanTree {
 		j = JoinNodes(firstSmallestNode, secondSmallestNode)
 		huffmanTable.Table[j.value] = j
 	}
-	return &HuffmanTree{Root: j, Text: text}
+	return &Tree{Root: j, Text: text}
 }

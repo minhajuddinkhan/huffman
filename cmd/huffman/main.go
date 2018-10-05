@@ -8,12 +8,14 @@ import (
 
 func main() {
 
-	tree := huffman.NewHuffmanTree("abbccc")
+	tree := huffman.NewHuffmanTree("whats your nAme?")
 
 	var result string
 	err := tree.Encode(&result)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(result) //000101111
+
+	decoded, _ := tree.Decode(result)
+	fmt.Println(decoded)
 }
