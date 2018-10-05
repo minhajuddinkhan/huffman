@@ -26,7 +26,7 @@ func (h *HuffmanTree) encodeCharacter(ch string, s *ItemStack, rootNode *Node, r
 			for _, i := range s.items {
 				encoded += string(i)
 			}
-			*result = encoded
+			*result += encoded
 
 		}
 
