@@ -1,9 +1,5 @@
 package compression
 
-import (
-	"fmt"
-)
-
 var (
 	text = "abbccc"
 )
@@ -22,9 +18,7 @@ type HuffmanTree struct {
 	Root *Node
 }
 
-//Encode Encode
-func (h *HuffmanTree) Encode(ch string, s *ItemStack, rootNode *Node) (string, error) {
-
+func (h *HuffmanTree) encodeCharacter(ch string, s *ItemStack, rootNode *Node, result *string) {
 	encoded := ""
 
 	if rootNode.LeftNode == nil && rootNode.RightNode == nil {
@@ -32,20 +26,28 @@ func (h *HuffmanTree) Encode(ch string, s *ItemStack, rootNode *Node) (string, e
 			for _, i := range s.items {
 				encoded += string(i)
 			}
-			fmt.Println(encoded)
-			return fmt.Sprintf("%s", encoded), nil
+			*result = encoded
+
 		}
-		return "", nil
+
+		return
 	}
 	s.Push("0")
-	h.Encode(ch, s, rootNode.LeftNode)
+	h.encodeCharacter(ch, s, rootNode.LeftNode, result)
 	s.Pop()
 
 	s.Push("1")
-	h.Encode(ch, s, rootNode.RightNode)
+	h.encodeCharacter(ch, s, rootNode.RightNode, result)
 	s.Pop()
+}
 
-	return encoded, nil
+//Encode Encode
+func (h *HuffmanTree) Encode(result *string) {
+
+	for _, c := range h.Text {
+		stack := ItemStack{}
+		h.encodeCharacter(string(c), stack.New(), h.Root, result)
+	}
 
 }
 
