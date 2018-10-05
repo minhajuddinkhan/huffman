@@ -1,6 +1,8 @@
 package huffman
 
 import "errors"
+import "fmt"
+import "strconv"
 
 //Node Node
 type Node struct {
@@ -85,6 +87,8 @@ func NewHuffmanTree(text string) *Tree {
 
 	huffmanTable := NewHuffmanTable(text)
 	var j *Node
+	i := 0
+
 	for len(huffmanTable.Table) > 1 {
 
 		firstSmallestNode := huffmanTable.GetSmallestNode()
@@ -93,7 +97,8 @@ func NewHuffmanTree(text string) *Tree {
 		secondSmallestNode := huffmanTable.GetSmallestNode()
 		delete(huffmanTable.Table, secondSmallestNode.value)
 
-		j = JoinNodes(firstSmallestNode, secondSmallestNode)
+		j = JoinNodes(firstSmallestNode, secondSmallestNode, fmt.Sprintf("N%s", strconv.Itoa(i)))
+		i++
 		huffmanTable.Table[j.value] = j
 	}
 	return &Tree{Root: j, Text: text}

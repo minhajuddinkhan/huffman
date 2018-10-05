@@ -37,13 +37,13 @@ func (hft *HuffmanFrequenceTable) GetSmallestNode() *Node {
 }
 
 //JoinNodes JoinNodes
-func JoinNodes(firstNode, secondNode *Node) *Node {
+func JoinNodes(firstNode, secondNode *Node, label string) *Node {
 
 	return &Node{
 		LeftNode:  firstNode,
 		RightNode: secondNode,
 		weight:    firstNode.weight + secondNode.weight,
-		value:     firstNode.value + secondNode.value,
+		value:     label,
 	}
 
 }
