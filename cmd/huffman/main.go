@@ -8,7 +8,7 @@ import (
 
 func main() {
 
-	tree := huffman.NewHuffmanTree("Whats your name bro?")
+	tree := huffman.NewHuffmanTree("Are you a gopher?")
 
 	var encoded string
 	err := tree.Encode(&encoded)
