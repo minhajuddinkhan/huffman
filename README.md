@@ -19,11 +19,13 @@ import (
 func main() {
 
 	tree := compression.NewHuffmanTree("abbccc")
-	encoded, err := tree.Encode()
+
+	var result string
+	err := tree.Encode(&result)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(encoded) //000101111
+	fmt.Println(result) //000101111
 }
 
 ```
